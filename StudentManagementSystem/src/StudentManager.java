@@ -72,6 +72,7 @@ public class StudentManager {
         }
     }
 
+    // tìm kiếm sinh viên
     static void searchStudent(Scanner sc, int choice) {
         if (totalStudent == 0) {
             System.out.println(Message.STUDENTS_EMPTY);
@@ -110,6 +111,7 @@ public class StudentManager {
         }
     }
 
+    // cập nhật các thông tin được cho phép của sinh viên
     static void updateStudent(Scanner sc) {
         if (totalStudent == 0) {
             System.out.println(Message.STUDENTS_EMPTY);
@@ -142,6 +144,7 @@ public class StudentManager {
         }
     }
 
+    // xoá sinh viên bằng phương pháp dồn trái
     static void deleteStudent(Scanner sc) {
         if (totalStudent == 0) {
             System.out.println(Message.STUDENTS_EMPTY);
@@ -170,6 +173,8 @@ public class StudentManager {
         }
     }
 
+
+    // in ra điểm trung bình và xếp loại của sinh viên được chọn
     static void studentRank(Scanner sc) {
         if (totalStudent == 0) {
             System.out.println(Message.STUDENTS_EMPTY);
@@ -179,9 +184,9 @@ public class StudentManager {
         Student findStudent = Validator.findStudentById(input);
         if (findStudent != null) {
             System.out.println("+----------------------------------------------------------------------------------------+");
-            System.out.printf("| %-10s | %-20s | %-5s | %-10s | %-7s | %-7s |\n", "Mã sinh viên", "Tên sinh viên", "Tuổi", "Giới tính", "Điểm trung bình", "Xếp loại");
+            System.out.printf("| %-10s | %-20s | %-5s | %-10s | %-7s | %-10s |\n", "Mã sinh viên", "Tên sinh viên", "Tuổi", "Giới tính", "Điểm trung bình", "Xếp loại");
             System.out.println("+----------------------------------------------------------------------------------------+");
-            System.out.printf("| %-12d | %-20s | %-5d | %-10s | %-7.2f | %-7s |\n",
+            System.out.printf("| %-12d | %-20s | %-5d | %-10s | %-15.2f | %-10s |\n",
                     findStudent.getStudentId(), findStudent.getStudentName(), findStudent.getAge(), findStudent.isMale() ? "Nam" : "Nữ", findStudent.getAvg(), findStudent.getRank());
             System.out.println("+----------------------------------------------------------------------------------------+");
         } else {
@@ -189,12 +194,14 @@ public class StudentManager {
         }
     }
 
+    // sắp xếp sinh viên
     static void sortStudents(Scanner sc, int choice) {
         if (totalStudent == 0) {
             System.out.println(Message.STUDENTS_EMPTY);
             return;
         }
         switch (choice) {
+            // sắp xếp theo điểm trung bình bằng bubble sort
             case 1:
                 for (int i = 0; i < totalStudent - 1; i++) {
                     for (int j = 0; j < totalStudent - 1 -i; j++) {
@@ -206,6 +213,7 @@ public class StudentManager {
                     }
                 }
                 break;
+            // sắp xếp theo tên sinh viên bằng selection sort
             case 2:
                 for (int i = 0; i < totalStudent - 1; i++) {
                     int minIndex =  i;
@@ -226,6 +234,8 @@ public class StudentManager {
         System.out.println("Sắp xếp thành công!");
     }
 
+
+    // tính số học sinh ở từng xếp loại
     static void statisRank() {
         int gioi = 0,kha = 0, tb = 0,yeu = 0;
         for (int i = 0; i < totalStudent; i++) {
@@ -246,6 +256,7 @@ public class StudentManager {
         System.out.println("Yếu : "+yeu);
     }
 
+    // tìm ra sinh viên có điểm trung bình lớn nhất và nhỏ nhất
     static void statisMaxMin(){
         Student maxStudent = students[0];
         Student minStudent = students[0];
@@ -266,6 +277,8 @@ public class StudentManager {
         System.out.println(minStudent.toString());
     }
 
+
+    // tính trung bình điểm của tất cả sinh viên
     static void avgAllStudents(){
         double avg = 0;
         for (int i = 0; i < totalStudent; i++) {
@@ -274,6 +287,7 @@ public class StudentManager {
         System.out.printf("Điểm trung bình của tất cả sinh viên : %.2f\n",avg/totalStudent);
     }
 
+    // In ra thống kê
     static void statistical(){
         if (totalStudent == 0) {
             System.out.println(Message.STUDENTS_EMPTY);

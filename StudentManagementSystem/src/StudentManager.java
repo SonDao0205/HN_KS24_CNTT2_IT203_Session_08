@@ -1,20 +1,21 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StudentManager {
-    public static Student[] students = new Student[100]; // mảng lưu các sinh viên
-    public static int totalStudent = 0; // tổng số sinh viên hiện tại
+//    public static Student[] students = new Student[100]; // mảng lưu các sinh viên
+    public static ArrayList<Student> students = new ArrayList<>();
 
     static void ok() {
-        students[totalStudent++] = new Student(1, "Nguyen Van An", 18, true, 8.5, 7.0, 9.0);
-        students[totalStudent++] = new Student(2, "Tran Thi Binh", 19, false, 5.0, 6.5, 4.5);
-        students[totalStudent++] = new Student(3, "Le Van Cuong", 20, true, 7.5, 8.0, 8.5);
-        students[totalStudent++] = new Student(4, "Pham Minh Duc", 18, true, 4.0, 3.5, 5.0);
-        students[totalStudent++] = new Student(5, "Hoang Lan Anh", 19, false, 9.0, 9.5, 10.0);
-        students[totalStudent++] = new Student(6, "Do Thanh Hai", 21, true, 6.0, 5.5, 6.5);
-        students[totalStudent++] = new Student(7, "Bui Tuyet Mai", 18, false, 8.0, 8.0, 8.0);
-        students[totalStudent++] = new Student(8, "Nguyen Manh Hung", 19, true, 5.5, 4.0, 3.5);
-        students[totalStudent++] = new Student(9, "Vu Thuy Linh", 20, false, 7.0, 7.5, 6.0);
-        students[totalStudent++] = new Student(10, "Ly Hoang Nam", 18, true, 10.0, 9.5, 9.0);
+        students.add(new Student(1, "Nguyen Van An", 18, true, 8.5, 7.0, 9.0));
+        students.add(new Student(2, "Tran Thi Binh", 19, false, 5.0, 6.5, 4.5));
+        students.add(new Student(3, "Le Van Cuong", 20, true, 7.5, 8.0, 8.5));
+        students.add(new Student(4, "Pham Minh Duc", 18, true, 4.0, 3.5, 5.0));
+        students.add(new Student(5, "Hoang Lan Anh", 19, false, 9.0, 9.5, 10.0));
+        students.add(new Student(6, "Do Thanh Hai", 21, true, 6.0, 5.5, 6.5));
+        students.add(new Student(7, "Bui Tuyet Mai", 18, false, 8.0, 8.0, 8.0));
+        students.add(new Student(8, "Nguyen Manh Hung", 19, true, 5.5, 4.0, 3.5));
+        students.add(new Student(9, "Vu Thuy Linh", 20, false, 7.0, 7.5, 6.0));
+        students.add(new Student(10, "Ly Hoang Nam", 18, true, 10.0, 9.5, 9.0));
     }
 
     // thêm sinh viên
@@ -51,7 +52,7 @@ public class StudentManager {
         Student newStudent = new Student(id, name, age, gender, math, physic, chemistry);
 
         // thêm vào mảng dữ liệu
-        students[totalStudent++] = newStudent;
+        students.add(newStudent);
 
         // thông báo thêm thành công
         System.out.println("Thêm học sinh thành công!");
@@ -60,21 +61,21 @@ public class StudentManager {
     // in ra danh sách tất cả các sinh viên
     static void displayAllStudents() {
         // kiểm tra danh sách có dữ liệu không
-        if (totalStudent == 0) {
+        if (students.isEmpty()) {
             System.out.println(Message.STUDENTS_EMPTY);
             return;
         }
         System.out.println("+----------------------------------------------------------------------------------------+");
         System.out.printf("| %-10s | %-20s | %-5s | %-10s | %-7s | %-7s | %-7s |\n", "Mã sinh viên", "Tên sinh viên", "Tuổi", "Giới tính", "Toán", "Vật lý", "Hoá học");
         System.out.println("+----------------------------------------------------------------------------------------+");
-        for (int i = 0; i < totalStudent; i++) {
-            System.out.println(students[i].toString());
+        for (Student student : students) {
+            System.out.println(student.toString());
         }
     }
 
     // tìm kiếm sinh viên
     static void searchStudent(Scanner sc, int choice) {
-        if (totalStudent == 0) {
+        if (students.isEmpty()) {
             System.out.println(Message.STUDENTS_EMPTY);
             return;
         }
@@ -96,24 +97,24 @@ public class StudentManager {
                 break;
             // tìm sinh viên theo tên
             case 2:
+                boolean flag = false;
                 String searchName = Validator.getString(sc, "Nhập tên sinh viên : ");
                 for (Student student : students) {
-                    if (student != null && student.getStudentName().contains(searchName)) {
-                        System.out.println("+----------------------------------------------------------------------------------------+");
-                        System.out.printf("| %-10s | %-20s | %-5s | %-10s | %-7s | %-7s | %-7s |\n", "Mã sinh viên", "Tên sinh viên", "Tuổi", "Giới tính", "Toán", "Vật lý", "Hoá học");
-                        System.out.println("+----------------------------------------------------------------------------------------+");
+                    if (student != null && student.getStudentName().toLowerCase().contains(searchName.toLowerCase())) {
                         System.out.println(student.toString());
-                        return;
+                        flag = true;
                     }
                 }
-                System.out.println(Message.STUDENT_NOT_FOUND);
+                if (!flag) {
+                    System.out.println(Message.STUDENT_NOT_FOUND);
+                }
                 break;
         }
     }
 
     // cập nhật các thông tin được cho phép của sinh viên
     static void updateStudent(Scanner sc) {
-        if (totalStudent == 0) {
+        if (students.isEmpty()) {
             System.out.println(Message.STUDENTS_EMPTY);
             return;
         }
@@ -144,29 +145,20 @@ public class StudentManager {
         }
     }
 
-    // xoá sinh viên bằng phương pháp dồn trái
+    // xoá sinh viên
     static void deleteStudent(Scanner sc) {
-        if (totalStudent == 0) {
+        if (students.isEmpty()) {
             System.out.println(Message.STUDENTS_EMPTY);
             return;
         }
         int input = Validator.getInt(sc, "Nhập mã sinh viên : ", 1, 9999);
         Student findStudent = Validator.findStudentById(input);
-
+        int confirm = Validator.getInt(sc,"Bạn có chắc chắn muốn xoá sinh viên này không (Có : 1 / Không : 0) : ",0,1);
+        if(confirm == 0){
+            return;
+        }
         if (findStudent != null) {
-            int index = -1;
-            for (int i = 0; i < totalStudent; i++) {
-                if (students[i] != null && students[i].getStudentId() == findStudent.getStudentId()) {
-                    index = i;
-                    break;
-                }
-            }
-            if (index != -1) {
-                for (int i = index; i < totalStudent - 1; i++) {
-                    students[i] = students[i + 1];
-                }
-            }
-            totalStudent--;
+            students.remove(findStudent);
             System.out.println("Xoá sinh viên thành công!");
         } else {
             System.out.println(Message.STUDENT_NOT_FOUND);
@@ -176,7 +168,7 @@ public class StudentManager {
 
     // in ra điểm trung bình và xếp loại của sinh viên được chọn
     static void studentRank(Scanner sc) {
-        if (totalStudent == 0) {
+        if (students.isEmpty()) {
             System.out.println(Message.STUDENTS_EMPTY);
             return;
         }
@@ -196,37 +188,37 @@ public class StudentManager {
 
     // sắp xếp sinh viên
     static void sortStudents(Scanner sc, int choice) {
-        if (totalStudent == 0) {
+        if (students.isEmpty()) {
             System.out.println(Message.STUDENTS_EMPTY);
             return;
         }
         switch (choice) {
             // sắp xếp theo điểm trung bình bằng bubble sort
             case 1:
-                for (int i = 0; i < totalStudent - 1; i++) {
-                    for (int j = 0; j < totalStudent - 1 -i; j++) {
-                        if(students[j] != null && students[j].getAvg() < students[j+1].getAvg()) {
-                            Student temp = students[j];
-                            students[j] = students[j+1];
-                            students[j+1] = temp;
+                for (int i = 0; i < students.size() - 1; i++) {
+                    for (int j = 0; j < students.size() - 1 -i; j++) {
+                        if(students.get(j) != null && students.get(j).getAvg() < students.get(j+1).getAvg()) {
+                            Student temp = students.get(j);
+                            students.set(j,students.get(j+1));
+                            students.set(j+1, temp);
                         }
                     }
                 }
                 break;
             // sắp xếp theo tên sinh viên bằng selection sort
             case 2:
-                for (int i = 0; i < totalStudent - 1; i++) {
+                for (int i = 0; i < students.size() - 1; i++) {
                     int minIndex =  i;
-                    for (int j = i + 1; j < totalStudent; j++) {
-                        if(students[j] != null && (students[j].getStudentName().toLowerCase().charAt(0) <  students[minIndex].getStudentName().toLowerCase().charAt(0))) {
+                    for (int j = i + 1; j < students.size(); j++) {
+                        if(students.get(j) != null && (students.get(j).getStudentName().toLowerCase().charAt(0) <  students.get(minIndex).getStudentName().toLowerCase().charAt(0))) {
                             minIndex = j;
                         }
                     }
 
                     if(minIndex != i) {
-                        Student temp = students[minIndex];
-                        students[minIndex] = students[i];
-                        students[i] = temp;
+                        Student temp = students.get(minIndex);
+                        students.set(minIndex, students.get(i));
+                        students.set(i, temp);
                     }
                 }
                 break;
@@ -238,15 +230,12 @@ public class StudentManager {
     // tính số học sinh ở từng xếp loại
     static void statisRank() {
         int gioi = 0,kha = 0, tb = 0,yeu = 0;
-        for (int i = 0; i < totalStudent; i++) {
-            if(students[i].getRank().equals("Giỏi")){
-                gioi++;
-            }else if (students[i].getRank().equals("Khá")){
-                kha++;
-            } else if (students[i].getRank().equals("Trung bình")) {
-                tb++;
-            }else{
-                yeu++;
+        for (Student student : students) {
+            switch (student.getRank()) {
+                case "Giỏi" -> gioi++;
+                case "Khá" -> kha++;
+                case "Trung bình" -> tb++;
+                default -> yeu++;
             }
         }
 
@@ -258,15 +247,15 @@ public class StudentManager {
 
     // tìm ra sinh viên có điểm trung bình lớn nhất và nhỏ nhất
     static void statisMaxMin(){
-        Student maxStudent = students[0];
-        Student minStudent = students[0];
+        Student maxStudent = students.getFirst();
+        Student minStudent = students.getFirst();
 
-        for (int i = 0; i < totalStudent; i++) {
-            if (students[i].getAvg() > maxStudent.getAvg()) {
-                maxStudent = students[i];
+        for (Student student : students) {
+            if (student.getAvg() > maxStudent.getAvg()) {
+                maxStudent = student;
             }
-            if (students[i].getAvg() <  minStudent.getAvg()) {
-                minStudent = students[i];
+            if (student.getAvg() < minStudent.getAvg()) {
+                minStudent = student;
             }
         }
         System.out.println("Sinh viên có điểm cao nhất : ");
@@ -281,15 +270,15 @@ public class StudentManager {
     // tính trung bình điểm của tất cả sinh viên
     static void avgAllStudents(){
         double avg = 0;
-        for (int i = 0; i < totalStudent; i++) {
-            avg += students[i].getAvg();
+        for (Student student : students) {
+            avg += student.getAvg();
         }
-        System.out.printf("Điểm trung bình của tất cả sinh viên : %.2f\n",avg/totalStudent);
+        System.out.printf("Điểm trung bình của tất cả sinh viên : %.2f\n",avg/students.size());
     }
 
     // In ra thống kê
     static void statistical(){
-        if (totalStudent == 0) {
+        if (students.isEmpty()) {
             System.out.println(Message.STUDENTS_EMPTY);
             return;
         }

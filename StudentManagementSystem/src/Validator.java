@@ -21,9 +21,9 @@ public class Validator {
 
     // tìm sinh viên bằng id
     static Student findStudentById(int id){
-        for(int i = 0; i < StudentManager.totalStudent; i++){
-            if(StudentManager.students[i] != null && StudentManager.students[i].getStudentId() == id){
-                return StudentManager.students[i];
+        for(Student student : StudentManager.students){
+            if(student.getStudentId() == id){
+                return student;
             }
         }
         return null;

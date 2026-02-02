@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StudentManager {
-//    public static Student[] students = new Student[100]; // mảng lưu các sinh viên
     public static ArrayList<Student> students = new ArrayList<>();
 
     static void ok() {
@@ -158,7 +157,19 @@ public class StudentManager {
             return;
         }
         if (findStudent != null) {
-            students.remove(findStudent);
+            int index = -1;
+            for (int i = 0; i < students.size(); i++) {
+                if (students.get(i) != null && students.get(i).getStudentId() == findStudent.getStudentId()) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index != -1) {
+                for (int i = index; i < students.size() - 1; i++) {
+                    students.set(i,students.get(i + 1));
+                }
+            }
+            students.remove(students.size() - 1);
             System.out.println("Xoá sinh viên thành công!");
         } else {
             System.out.println(Message.STUDENT_NOT_FOUND);
@@ -247,8 +258,8 @@ public class StudentManager {
 
     // tìm ra sinh viên có điểm trung bình lớn nhất và nhỏ nhất
     static void statisMaxMin(){
-        Student maxStudent = students.getFirst();
-        Student minStudent = students.getFirst();
+        Student maxStudent = students.get(0);
+        Student minStudent = students.get(0);
 
         for (Student student : students) {
             if (student.getAvg() > maxStudent.getAvg()) {

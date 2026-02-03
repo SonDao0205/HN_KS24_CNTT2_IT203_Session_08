@@ -32,11 +32,11 @@ public class MainApp {
                     System.out.println("2. Tìm kiếm theo tên sinh viên");
                     System.out.println("3. Quay lại");
                     System.out.print("Chọn chức năng (1-3): ");
-                    choice = sc.nextInt();
+                    int subChoice = sc.nextInt();
                     sc.nextLine();
-                    switch (choice) {
+                    switch (subChoice) {
                         case 1, 2:
-                            StudentManager.searchStudent(sc,choice);
+                            StudentManager.searchStudent(sc, subChoice);
                             break;
                         case 3:
                             break;
@@ -60,11 +60,11 @@ public class MainApp {
                     System.out.println("2. Sắp xếp theo tên A-Z");
                     System.out.println("3. Quay lại");
                     System.out.print("Chọn chức năng (1-3): ");
-                    choice = sc.nextInt();
+                    int tempChoice = sc.nextInt();
                     sc.nextLine();
-                    switch (choice) {
+                    switch (tempChoice) {
                         case 1, 2:
-                            StudentManager.sortStudents(sc,choice);
+                            StudentManager.sortStudents(sc, tempChoice);
                             break;
                         case 3:
                             break;

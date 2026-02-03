@@ -20,6 +20,10 @@ public class StudentManager {
     // thêm sinh viên
     static void insertStudent(Scanner sc) {
         // nhập mã sinh viên và kiểm tra trùng lặp
+        if(students.size() > 100) {
+            System.out.println("Mảng đã đầy!");
+            return;
+        }
         int id;
         do {
             id = Validator.getInt(sc, "Nhập mã sinh viên (1-9999): ", 1, 9999);
@@ -121,9 +125,9 @@ public class StudentManager {
         Student findStudent = Validator.findStudentById(input);
         if (findStudent != null) {
             // tên
-            String name = Validator.getString(sc, "Nhập tên sinh viên : ");
+            String name = Validator.getString(sc, "Nhập tên mới sinh viên : ");
             // tuổi
-            int age = Validator.getInt(sc, "Nhập tuổi : ", 18, 30);
+            int age = Validator.getInt(sc, "Nhập tuổi mới : ", 18, 30);
 
             // nhập điểm toán
             System.out.println("Điểm hiện tại : " + findStudent.getMathScore());
